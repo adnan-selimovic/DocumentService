@@ -1,6 +1,8 @@
 # DocumentService
 Microservice polyglot persistence on an example of a document service
 
+![]([https://github.com/Your_Repository_Name/Your_GIF_Name.gif](https://github.com/adnan-selimovic/DocumentService/blob/master/Download.gif))
+
 # Docker support
 Docker support was enabled during project creation in Visual Studio
 Note about "Docker Desktop WSL 2 backend"
