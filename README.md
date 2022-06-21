@@ -1,6 +1,6 @@
 # Microservice polyglot persistence on an example of a document service
 
-<[>The figure below shows the document service UI that allows tree view navigation through the hierarchical folder structure on the left and selecting Folder or List view controls on the right:
+The figure below shows the document service UI that allows tree view navigation through the hierarchical folder structure on the left and selecting Folder or List view controls on the right:
 
 ![](https://github.com/adnan-selimovic/DocumentService/blob/master/Navigation.gif)
 
@@ -26,4 +26,4 @@ Drag-and-drop file upload functionality:
 
 Text/HTML documents can be edited directly; check-out must be done beforehand:
 
-![](https://github.com/adnan-selimovic/DocumentService/blob/master/Edit.gif))
+![](https://github.com/adnan-selimovic/DocumentService/blob/master/Edit.gif)
