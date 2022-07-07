@@ -1,0 +1,52 @@
+<div fxLayout="row">
+  <table fxFill class="bg-white drop-shadow-lg table-fixed">
+    <thead class="border-b">
+      <tr>
+        <th class="p-3 text-left">Title</th>
+        <th class="p-3 text-left">Created By</th>
+        <th class="p-3 text-left">Created On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="overflow-hidden cursor-pointer bg-white border-b border-gray-belton hover:bg-silver"
+        *ngFor="let folder of folders$ | async"
+        routerLink="/documents/"
+        [queryParams]="{ path: folder.path_url }"
+      >
+        <td
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+          class="p-3"
+        >
+          <div><div class="folder-icon"></div></div>
+          <div class="line-1">{{ folder.folder_name }}</div>
+        </td>
+        <td class="p-3">{{ folder.created_by }}</td>
+        <td class="p-3">{{ folder.created_date | date: "dd.MM.YYYY." }}</td>
+      </tr>
+      <tr
+        class="overflow-hidden cursor-pointer bg-white border-b border-gray-belton hover:bg-silver"
+        *ngFor="let document of documents$ | async"
+        [routerLink]="['/documents/file', document._id]"
+        [queryParams]="{
+          path: document.path_url,
+          document: document.document_name
+        }"
+      >
+        <td
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+          class="p-3"
+        >
+          <div><div class="document-icon"></div></div>
+          <div class="line-1">{{ document.document_name }}</div>
+        </td>
+        <td class="p-3">{{ document.created_by }}</td>
+        <td class="p-3">{{ document.created_date | date: "dd.MM.YYYY." }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

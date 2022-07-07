@@ -1,0 +1,12 @@
+<app-modal-wrapper (onConfirmEvent)="onSubmitForm()" [disabled]="form.invalid">
+  <div class="p-3">
+    <form [formGroup]="form">
+      <app-input-form-control
+        formControlName="folderName"
+        placeholder="Folder Name"
+        leftIcon="folder-icon"
+        [prefixText]="(getFolderPath$ | async)?.folderPath"
+      ></app-input-form-control>
+    </form>
+  </div>
+</app-modal-wrapper>

@@ -1,0 +1,66 @@
+<div
+  *ngIf="getFoldersTree && getFolderPath"
+  class="bg-layout border-r-2 border-gray-belton h-full p-3 overflow-y-scroll overflow-x-hidden"
+>
+  <ng-container *ngFor="let node of getFoldersTree">
+    <ng-container
+      [ngTemplateOutlet]="folderTree"
+      [ngTemplateOutletContext]="{ $implicit: node }"
+    >
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #folderTree let-node>
+  <div
+    class="pt-1 pb-1 cursor-pointer"
+    [class.bg-gray-eagle]="getFolderPath.folderPath == node.path_url"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="8px"
+  >
+    <div *ngIf="node.isFolder" fxLayout="row" fxLayoutGap="4px">
+      <div>
+        <div
+          (click)="expandFolder(node.path_url)"
+          class="arrow-right-icon"
+          [class.rotate]="node.isExpanded"
+          [routerLink]="!node.childFolder ? '/documents' : null"
+          [queryParams]="{ path: node.path_url }"
+        ></div>
+      </div>
+      <div>
+        <div class="folder-icon"></div>
+      </div>
+    </div>
+    <div>
+      <div *ngIf="!node.isFolder" class="document-icon"></div>
+    </div>
+    <div
+      [routerLink]="
+        node.isFolder ? ['/documents'] : ['/documents/file', node._id]
+      "
+      [queryParams]="
+        node.isFolder
+          ? { path: node.path_url }
+          : {
+              path: node.path_url,
+              document: node.name
+            }
+      "
+    >
+      <div [class.line-1]="node.name">
+        {{ node.name }} <span class="text-layout">...</span>
+      </div>
+    </div>
+  </div>
+  <div class="pl-3" *ngIf="node.childFolder && node.isExpanded">
+    <ng-container *ngFor="let node of node.childFolder">
+      <ng-container
+        [ngTemplateOutlet]="folderTree"
+        [ngTemplateOutletContext]="{ $implicit: node }"
+      >
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

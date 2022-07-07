@@ -1,0 +1,247 @@
+<div class="mb-3">
+  <div class="p-3" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <div fxFlex>
+      <form [formGroup]="form">
+        <app-path-search-input-control
+          formControlName="searchFolderPath"
+          placeholder="Type to find a file or folder..."
+        ></app-path-search-input-control>
+      </form>
+    </div>
+    <ng-container *ngTemplateOutlet="previewTypeContainer"></ng-container>
+  </div>
+  <div class="p-3 pb-0">
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </div>
+</div>
+
+<!---  T E M P L A T E S  --->
+<ng-template #previewTypeContainer>
+  <div
+    fxLayout="row"
+    fxLayoutGap="4px"
+    *ngIf="getFolderOptions$ | async as getFolderOptions"
+  >
+    <div
+      class="p-2 cursor-pointer rounded-md hover:bg-gray-smoky"
+      [class.bg-gray-eagle]="
+        getFolderOptions.previewType === folderPreviewType.FOLDER
+      "
+      matTooltip="Folder view"
+      (click)="setPreviewType(folderPreviewType.FOLDER)"
+    >
+      <div class="group-list-icon"></div>
+    </div>
+    <div
+      class="p-2 cursor-pointer rounded-md hover:bg-gray-smoky"
+      [class.bg-gray-eagle]="
+        getFolderOptions.previewType === folderPreviewType.LIST
+      "
+      matTooltip="List view"
+      (click)="setPreviewType(folderPreviewType.LIST)"
+    >
+      <div class="bullet-list-icon"></div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #header>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    *ngIf="getFolderPath$ | async as getFolderPath"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="12px"
+      class="ml-3"
+    >
+      <div
+        *ngIf="isDocument && selectedDocument"
+        class="rounded-md p-1"
+        [class.bg-gray-eagle]="!selectedDocument.checked_out_by"
+        [class.bg-amber-100]="selectedDocument.checked_out_by"
+        [class.border]="selectedDocument.checked_out_by"
+        [matTooltip]="
+          selectedDocument.checked_out_by ? 'Checked Out' : 'Check In'
+        "
+      >
+        <div
+          [class.locked-icon]="selectedDocument.checked_out_by"
+          [class.unlocked-icon]="!selectedDocument.checked_out_by"
+        ></div>
+      </div>
+      <div>
+        <div *ngIf="!selectedDocument" class="font-bold">
+          {{ getFolderPath.getCurrentFolder() }}
+        </div>
+        <div *ngIf="selectedDocument" class="font-bold">
+          {{ selectedDocument.document_name }}
+        </div>
+        <div
+          *ngIf="
+            isDocument && selectedDocument && selectedDocument.checked_out_by
+          "
+          class="text-sm text-gray-700"
+        >
+          {{ selectedDocument.checked_out_by }} -
+          {{ selectedDocument.checked_out_date | date: "dd.MM.YYYY." }} -
+          {{ selectedDocument.checked_out_date | date: "HH:mm" }}h
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+      <div>
+        <ng-container *ngTemplateOutlet="shareLink"></ng-container>
+      </div>
+      <div>
+        <ng-container *ngTemplateOutlet="settingsMenuTemplate"></ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #settingsMenuTemplate>
+  <div *ngIf="getUserPermissions$ | async as getUserPermissions">
+    <button
+      *ngIf="getUserPermissions.hasPermission"
+      matTooltip="Options"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="4px"
+      class="p-1 rounded bg-gray-eagle cursor-pointer hover:bg-gray-belton"
+      [matMenuTriggerFor]="settingsMenu"
+    >
+      <div class="more-icon"></div>
+    </button>
+    <mat-menu #settingsMenu="matMenu">
+      <div *ngIf="getUserPermissions.canWrite">
+        <button
+          *ngIf="!isDocument"
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+          (click)="addNewFolder()"
+        >
+          <div class="folder-plus-outline-icon"></div>
+          <span>New Folder</span>
+        </button>
+        <button
+          *ngIf="isDocument && selectedDocument"
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+          (click)="selectedDocument.checked_out_by ? checkIn() : checkOut()"
+        >
+          <div class="check-underline-icon"></div>
+          <span *ngIf="selectedDocument.checked_out_by">Check In</span>
+          <span *ngIf="!selectedDocument.checked_out_by">Check Out</span>
+        </button>
+        <button
+          *ngIf="getPathAccessType && getUserPermissions.isOwner"
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+          (click)="setPathAccessType()"
+        >
+          <div
+            [class.share-icon]="
+              getPathAccessType === documentAccessTypeEnum.PRIVATE
+            "
+            [class.disallow-icon]="
+              getPathAccessType === documentAccessTypeEnum.PUBLIC
+            "
+          ></div>
+          <span *ngIf="getPathAccessType === documentAccessTypeEnum.PUBLIC"
+            >Set Private</span
+          >
+          <span *ngIf="getPathAccessType === documentAccessTypeEnum.PRIVATE"
+            >Set Public</span
+          >
+        </button>
+        <div class="border-b"></div>
+      </div>
+      <button
+        *ngIf="
+          selectedDocument &&
+          selectedDocument.checked_out_by &&
+          getUserPermissions.canWrite
+        "
+        mat-menu-item
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+      >
+        <div class="pencil-outline-icon"></div>
+        <span>Edit</span>
+      </button>
+      <button
+        *ngIf="getUserPermissions.isOwner"
+        mat-menu-item
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+        routerLink="/documents/permissions"
+        [queryParams]="{ path: getFolderPath.folderPath }"
+      >
+        <div class="user-settings-icon"></div>
+        <span>User Permissions</span>
+      </button>
+      <button
+        *ngIf="(isDocument || currentFolder) && getUserPermissions.canDelete"
+        mat-menu-item
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+        (click)="isDocument ? deleteDocument() : deleteFolder()"
+      >
+        <div class="delete-trash-can-icon"></div>
+        <span>Delete</span>
+      </button>
+      <button
+        *ngIf="isDocument && getUserPermissions.canRead"
+        mat-menu-item
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+        (click)="downloadDocument()"
+      >
+        <div class="download-briefcase-icon"></div>
+        <span>Download</span>
+      </button>
+      <!-- <div *ngIf="!isDocument && getUserPermissions.canRead">
+        <div class="border-b"></div>
+        <button
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="12px"
+        >
+          <div class="download-briefcase-icon"></div>
+          <span>Preuzmite kao ZIP</span>
+        </button>
+      </div> -->
+    </mat-menu>
+  </div>
+</ng-template>
+
+<ng-template #shareLink>
+  <button
+    *ngIf="getPathAccessType === documentAccessTypeEnum.PUBLIC"
+    matTooltip="Options"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="4px"
+    class="p-1 rounded bg-gray-eagle cursor-pointer hover:bg-gray-belton"
+    matTooltip="Share"
+    [cdkCopyToClipboard]="getShareLink()"
+    (click)="copyLink()"
+  >
+    <div class="share-icon"></div>
+  </button>
+</ng-template>

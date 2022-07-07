@@ -1,0 +1,9 @@
+<div class="bg-white w-full h-full" [class.hide-content]="!isContentLoaded">
+  <ngx-doc-viewer
+    *ngIf="url"
+    [url]="url"
+    viewer="url"
+    (loaded)="contentLoaded()"
+    style="height: 100%; width: 100%"
+  ></ngx-doc-viewer>
+</div>

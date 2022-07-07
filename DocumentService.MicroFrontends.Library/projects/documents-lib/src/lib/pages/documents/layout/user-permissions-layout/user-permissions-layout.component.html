@@ -1,0 +1,121 @@
+<div class="p-3">
+  <div class="pt-2 pb-4 mb-2 border-b">
+    <form [formGroup]="form" (ngSubmit)="addNew()">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
+          <ng-container *ngTemplateOutlet="userTypeTemplate"></ng-container>
+        </div>
+        <div fxFlex>
+          <app-input-form-control
+            formControlName="userId"
+            [leftIcon]="
+              userType === UserPermissionTypeEnum.USER
+                ? 'user-icon'
+                : 'user-group-icon'
+            "
+            [placeholder]="
+              userType === UserPermissionTypeEnum.USER
+                ? 'Enter User ID'
+                : 'Enter Group Name'
+            "
+            [prefixText]="getFolderPath?.folderPath"
+          ></app-input-form-control>
+        </div>
+
+        <button
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          class="ml-2 p-2 bg-layout rounded-md hover:bg-gray-eagle"
+          type="submit"
+          [class.opacity-50]="form.invalid"
+          [disabled]="form.invalid"
+        >
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <ng-container *ngTemplateOutlet="emptyState"></ng-container>
+
+  <div *ngIf="USERS_PERMISSIONS.length > 0" fxLayout="column" fxLayoutGap="8px">
+    <ng-container *ngFor="let user of USERS_PERMISSIONS; let userIndex = index">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="16px"
+        class="border-b"
+      >
+        <div
+          fxFlex
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="4px"
+        >
+          <div [class.user-icon]="!user.isGroup"></div>
+          <div [class.user-group-icon]="user.isGroup"></div>
+          <div>{{ user.userId }}</div>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="16px" class="p-2">
+          <ng-container *ngFor="let permission of PERMISSIONS">
+            <div
+              class="p-2 mb-1 cursor-pointer rounded-lg hover:bg-gray-eagle"
+              [class.bg-silver]="!checkPermission(user.permissions, permission)"
+              [class.bg-blue-light]="
+                checkPermission(user.permissions, permission)
+              "
+              (click)="updatePermissions(permission, userIndex)"
+              [class.pointer-events-none]="permission === 'read'"
+            >
+              <div>
+                {{ permission }}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div
+          class="p-2 mb-1 bg-gray-smoky cursor-pointer rounded-lg hover:bg-gray-eagle"
+          (click)="deleteUserPermissions(userIndex)"
+        >
+          <div class="delete-trash-can-icon"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- t e m p l a t e s -->
+<ng-template #userTypeTemplate>
+  <div fxLayout="row" fxLayoutGap="4px" class="mr-2">
+    <div
+      class="p-2 cursor-pointer rounded-md hover:bg-gray-smoky"
+      [class.bg-gray-eagle]="userType === UserPermissionTypeEnum.USER"
+      matTooltip="User"
+      (click)="setUserType(UserPermissionTypeEnum.USER)"
+    >
+      <div class="user-icon"></div>
+    </div>
+    <div
+      class="p-2 cursor-pointer rounded-md hover:bg-gray-smoky"
+      [class.bg-gray-eagle]="userType === UserPermissionTypeEnum.GROUP"
+      matTooltip="Group"
+      (click)="setUserType(UserPermissionTypeEnum.GROUP)"
+    >
+      <div class="user-group-icon"></div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #emptyState>
+  <div *ngIf="USERS_PERMISSIONS.length === 0" fxLayout="row" class="p-5">
+    <div
+      fxFlex
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      class="w-48 h-48"
+    >
+      <div class="connections-img max"></div>
+      <div>There is no users permissions</div>
+    </div>
+  </div>
+</ng-template>

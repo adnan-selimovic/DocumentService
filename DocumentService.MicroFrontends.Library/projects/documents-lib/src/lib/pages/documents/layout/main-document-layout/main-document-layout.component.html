@@ -1,0 +1,17 @@
+<div class="bg-layout h-full" fxLayout="row">
+  <div fxLayout="column" class="h-full w-full">
+    <div fxLayout="row" class="h-full">
+      <div fxFlex="300px" class="h-full overflow-hidden mob:hidden md:block">
+        <app-folders-tree-hierarchy></app-folders-tree-hierarchy>
+      </div>
+      <div fxFlex="100%" fxLayout="column">
+        <div>
+          <app-document-breadcrumb-header></app-document-breadcrumb-header>
+        </div>
+        <div class="overflow-y-hidden h-full">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

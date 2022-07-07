@@ -1,0 +1,24 @@
+.ql-container {
+  min-height: 10rem;
+  height: 100% !important;
+  // height: 300px !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ql-editor {
+  height: 100% !important;
+  // height: 300px !important;
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.content-container {
+  min-height: 300px;
+}
+.editor-container {
+  height: calc(100vh - 450px);
+  min-height: 250px;
+}

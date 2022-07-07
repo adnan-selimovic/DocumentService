@@ -1,0 +1,42 @@
+<div class="p-3 bg-layout" fxLayout="row" fxFlex>
+  <div fxLayout="row">
+    <table fxFill class="bg-white drop-shadow-lg table-fixed">
+      <thead class="border-b">
+        <tr>
+          <th class="p-3 text-left">Title</th>
+          <th class="p-3 text-left">Size</th>
+          <th class="p-3 text-left">Created On</th>
+          <th class="p-3 text-left"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="overflow-hidden bg-white border-b border-gray-belton"
+          *ngFor="let document of (getPublicFolder$ | async)?.documents"
+        >
+          <td
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="12px"
+            class="p-3"
+          >
+            <div class="document-icon"></div>
+            <div class="line-1">{{ document.document_name }}</div>
+          </td>
+          <td class="p-3">
+            {{ getDocumentSize(document.document_size) }}
+          </td>
+          <td class="p-3">{{ document.created_date | date: "dd.MM.YYYY." }}</td>
+          <td class="p-3" fxLayout="row" fxLayoutAlign="end center">
+            <div
+              class="cursor-pointer bg-blue-light hover:bg-blue-basic p-1 rounded"
+              (click)="download(document._id)"
+            >
+              <div class="download-briefcase-icon"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

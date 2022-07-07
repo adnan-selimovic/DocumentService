@@ -1,0 +1,42 @@
+<div fxLayout="row wrap" fxLayoutGap="6px">
+  <ng-container *ngFor="let folder of folders$ | async">
+    <div
+      fxLayout="column"
+      fxLayoutAlign="start center"
+      class="p-1 overflow-hidden cursor-pointer folder-item"
+      routerLink="/documents"
+      [queryParams]="{ path: folder.path_url }"
+    >
+      <div class="folder-icon"></div>
+      <div fxLayout="row">
+        <div class="mt-1">{{ folder.folder_name }}</div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngFor="let document of documents$ | async">
+    <div
+      fxLayout="column"
+      fxLayoutAlign="start center"
+      class="p-1 overflow-hidden cursor-pointer folder-item"
+      [routerLink]="['/documents/file', document._id]"
+      [queryParams]="{
+        path: document.path_url,
+        document: document.document_name
+      }"
+    >
+      <div class="relative">
+        <div
+          *ngIf="document.checked_out_by"
+          class="absolute absolute-indicator-position bg-green-400 rounded-full w-1 h-1"
+          [matTooltip]="document.checked_out_by"
+        ></div>
+        <div class="document-icon"></div>
+      </div>
+      <div fxLayout="row">
+        <div class="mt-1 line-2 text-center" style="width: 90px">
+          {{ document.document_name }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

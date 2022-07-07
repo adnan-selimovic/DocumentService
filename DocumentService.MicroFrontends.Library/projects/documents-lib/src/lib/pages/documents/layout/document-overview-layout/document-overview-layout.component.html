@@ -1,0 +1,161 @@
+<div fxLayout="row" class="bg-layout h-full p-3 overflow-y-scroll">
+  <div
+    *ngIf="SELECTED_DOCUMENT"
+    fxFlex
+    class="content-container overflow-y-scroll"
+  >
+    <ng-container
+      *ngIf="isTextContent; then textDocument; else document"
+    ></ng-container>
+  </div>
+</div>
+
+<ng-template #textDocument>
+  <div fxLayout="column">
+    <div *ngIf="!isContentLoaded">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <div *ngIf="isContentLoaded" fxLayout="row" fxLayoutGap="4px" class="mt-2">
+      <div
+        class="p-2 rounded cursor-pointer"
+        [class.bg-gray-eagle]="textDocumentType === 'TEXT_EDITOR'"
+        [class.bg-gray-belot]="textDocumentType !== 'TEXT_EDITOR'"
+        (click)="textDocumentType = 'TEXT_EDITOR'"
+      >
+        Text
+      </div>
+      <div
+        class="p-2 rounded cursor-pointer"
+        [class.bg-gray-eagle]="textDocumentType === 'CODE_EDITOR'"
+        [class.bg-gray-belot]="textDocumentType !== 'CODE_EDITOR'"
+        (click)="textDocumentType = 'CODE_EDITOR'"
+      >
+        Code
+      </div>
+    </div>
+
+    <div *ngIf="isContentLoaded" class="overflow-hidden">
+      <div
+        *ngIf="textDocumentType === 'CODE_EDITOR'"
+        class="editor-container border border-gray-belton"
+      >
+        <ngs-code-editor
+          class="editor-container"
+          theme="vs"
+          [codeModel]="codeModel"
+          [options]="CodeEditorOptions"
+          [readOnly]="!SELECTED_DOCUMENT.checked_out_by"
+          (valueChanged)="onCodeChanged($event)"
+        >
+        </ngs-code-editor>
+      </div>
+
+      <form
+        *ngIf="textDocumentType === 'TEXT_EDITOR'"
+        [formGroup]="form"
+        class="editor-container bg-white"
+      >
+        <quill-editor
+          formControlName="editor"
+          format="text"
+          [readOnly]="!SELECTED_DOCUMENT.checked_out_by"
+          [styles]="editorStyles"
+        ></quill-editor>
+      </form>
+    </div>
+
+    <div
+      *ngIf="isContentLoaded && getUserPermissions"
+      fxLayout="row"
+      fxLayoutAlign="end start"
+      class="mt-3"
+    >
+      <button
+        *ngIf="isEditable && getUserPermissions.canWrite"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+        type="submit"
+        class="bg-gray-eagle hover:bg-gray-belton rounded p-2"
+        (click)="updateTextDocument()"
+      >
+        <div class="pencil-outline-icon"></div>
+        <span>Submit</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #document>
+  <div fxLayout="column" fxFill>
+    <div
+      *ngIf="
+        getPathAccessType === documentAccessTypeEnum.PUBLIC &&
+        !isContentLoaded &&
+        !SELECTED_DOCUMENT.checked_out_by
+      "
+    >
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="16px"
+      class="p-3 bg-white border border-gray-belton"
+    >
+      <div class="w-16 h-16">
+        <div class="document-search-img max"></div>
+      </div>
+      <div fxFlex>Download document</div>
+      <div
+        class="p-2 bg-gray-eagle rounded-md hover:bg-gray-belton cursor-pointer"
+        (click)="download()"
+      >
+        DOWNLOAD
+      </div>
+    </div>
+    <div
+      *ngIf="
+        getPathAccessType === documentAccessTypeEnum.PUBLIC &&
+        !SELECTED_DOCUMENT.checked_out_by &&
+        documentUrl
+      "
+      class="h-full"
+    >
+      <app-document-overview
+        [url]="documentUrl"
+        (onLoad)="contentLoaded()"
+      ></app-document-overview>
+    </div>
+    <div *ngIf="getUserPermissions.canWrite">
+      <ng-container *ngTemplateOutlet="dropzone"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- u p l o a d   d r o p z o n e -->
+<ng-template #dropzone>
+  <div *ngIf="SELECTED_DOCUMENT.checked_out_by">
+    <app-upload-component
+      (getDocuments)="getDocumentsToUpload($event)"
+      [showDropzone]="true"
+    >
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        class="p-3 cursor-pointer"
+      >
+        <div fxLayout="column" fxLayoutAlign="center center" class="pt-3 pb-3">
+          <div class="w-32 h-32">
+            <div class="upload-icon max"></div>
+          </div>
+          <div>Click to browse or drag document in the zone to upload.</div>
+          <div class="text-sm">
+            Check in will be done automatically after upload.
+          </div>
+        </div>
+      </div>
+    </app-upload-component>
+  </div>
+</ng-template>

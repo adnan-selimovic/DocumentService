@@ -1,0 +1,38 @@
+<app-upload-component
+  *ngIf="getFolderOptions && getUserPermissions"
+  (getDocuments)="getDocumentsToUpload($event)"
+  [disabled]="!getUserPermissions.canWrite"
+>
+  <div *ngIf="getRootFolder$ | async as getRootFolder" class="p-3">
+    <ng-container *ngTemplateOutlet="emptyState"></ng-container>
+
+    <div
+      *ngIf="!getRootFolder.isEmpty"
+      [ngSwitch]="getFolderOptions?.previewType"
+    >
+      <app-documents-icon-list
+        *ngSwitchCase="'FOLDER'"
+      ></app-documents-icon-list>
+      <app-documents-list *ngSwitchCase="'LIST'"></app-documents-list>
+    </div>
+  </div>
+</app-upload-component>
+
+<ng-template #emptyState>
+  <div
+    *ngIf="(getRootFolder$ | async)?.isEmpty"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    class="p-5"
+  >
+    <div
+      fxFlex
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      class="w-48 h-48"
+    >
+      <div class="empty-folder-img max"></div>
+      <div>Folder je prazan</div>
+    </div>
+  </div>
+</ng-template>

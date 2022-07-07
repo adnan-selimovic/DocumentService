@@ -1,0 +1,49 @@
+<div *ngIf="searchInProgress">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div
+  *ngIf="getSearchDocuments && !searchInProgress"
+  class="bg-layout overflow-hidden"
+  fxLayout="row"
+  fxFill
+>
+  <div fxFill fxLayout="column" class="h-full">
+    <div class="p-1">Number of Results: {{ getSearchDocuments.totalSize }}</div>
+
+    <div fxFlex class="bg-white">
+      <div fxFill class="grid md:grid-cols-12 lg:grid-cols-12 mob:grid-cols-1">
+        <div
+          class="md:col-span-4 lg:col-span-4 h-full mob:hidden sm:block border-r"
+        >
+          <ng-container *ngFor="let document of getSearchDocuments.items">
+            <div
+              class="border-b p-1 cursor-pointer hover:bg-silver"
+              [class.bg-silver]="
+                selectedFileId && selectedFileId === document.id
+              "
+              [routerLink]="'/documents/search'"
+              [queryParams]="{
+                text: queryFilter.searchTerm
+              }"
+              (click)="showDocument(document.id); show = false"
+            >
+              <div class="text-md">{{ document.name }}</div>
+              <div class="text-gray-500 text-sm">{{ document.path_url }}</div>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="show" class="md:col-span-8 lg:col-span-8">
+          <div *ngIf="!isContentLoaded">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <div class="h-full">
+            <app-document-overview
+              [url]="url"
+              (onLoad)="contentLoaded()"
+            ></app-document-overview>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
