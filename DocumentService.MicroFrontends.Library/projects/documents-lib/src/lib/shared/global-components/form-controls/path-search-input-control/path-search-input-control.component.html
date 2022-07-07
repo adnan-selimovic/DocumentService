@@ -1,0 +1,124 @@
+<div #inputContainer class="relative input-container border cursor-text">
+  <ng-container *ngTemplateOutlet="edit"></ng-container>
+  <div *ngIf="!editing" class="absolute top-0 left-0 w-full h-full">
+    <ng-container *ngTemplateOutlet="view"></ng-container>
+  </div>
+  <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+</div>
+
+<ng-template #view>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center start"
+    class="input-wrapper p-1 pl-2 pr-2 bg-layout overflow-x-clip overflow-y-hidden"
+  >
+    <div
+      *ngIf="getFolderPath$ | async as getFolderPath"
+      fxLayout="row"
+      fxLayoutGap="4px"
+    >
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        *ngFor="let fp of getFolderPath.folderPathArr; let i = index"
+      >
+        <div
+          *ngIf="i === 0"
+          class="p-1 cursor-pointer hover:bg-gray-eagle hover:rounded-lg"
+          matTooltip="Root Folder"
+          (click)="$event.stopPropagation()"
+          routerLink="/documents"
+          [queryParams]="{ path: '/' }"
+        >
+          <div class="folder-icon"></div>
+        </div>
+        <div
+          *ngIf="getFolderPath.folderPathArr.length === 1"
+          class="text-gray-smoky"
+        >
+          {{ placeholder }}
+        </div>
+        <div *ngIf="i > 0" class="w-1 text-center">/</div>
+        <div
+          *ngIf="i > 0"
+          class="p-1 pl-2 pr-2 cursor-pointer hover:bg-gray-eagle hover:rounded-lg"
+          (click)="$event.stopPropagation()"
+          routerLink="/documents"
+          [queryParams]="{ path: getFolderPath.getPathOnIndex(i) }"
+        >
+          {{ fp }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div class="input-wrapper">
+    <form [formGroup]="form">
+      <input
+        #input
+        class="w-full h-full p-1 pl-2 pr-2"
+        formControlName="searchInput"
+        (input)="onTempValueChange($event)"
+        [placeholder]="placeholder"
+      />
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #dropdown>
+  <!-- SELECT DROPDOWN -->
+  <div
+    *ngIf="selectExpanded"
+    class="select-container botom p-2"
+    fxLayout="column"
+  >
+    <!-- <div *ngIf="tempValue == ''">
+      <div class="p-1">
+        <div>Započnite vašu pretragu...</div>
+      </div>
+    </div> -->
+    <ng-container *ngIf="resultSelection.length === 0">
+      <div
+        class="p-1 cursor-pointer hover:bg-silver"
+        (click)="selectItem(tempValue)"
+        routerLink="/documents"
+        [queryParams]="{ path: tempValue }"
+      >
+        <div>Search: "{{ tempValue }}"</div>
+      </div>
+      <div class="border-b w-full h-1 mb-1"></div>
+    </ng-container>
+
+    <ng-container *ngIf="resultSelection.length > 0">
+      <ng-container *ngFor="let item of resultSelection">
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="4px"
+          class="p-1 cursor-pointer hover:bg-silver"
+          (click)="selectItem(item)"
+          [routerLink]="
+            item.is_folder ? '/documents' : ['/documents', item._id]
+          "
+          [queryParams]="
+            item.is_folder
+              ? { path: item.path_url }
+              : {
+                  path: item.path_url,
+                  document: item.name
+                }
+          "
+        >
+          <div
+            [class.folder-icon]="item.is_folder"
+            [class.document-icon]="!item.is_folder"
+          ></div>
+          <div [innerHTML]="item.path_url | highlightPipe: tempValue"></div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  <!-- / SELECT DROPDOWN -->
+</ng-template>

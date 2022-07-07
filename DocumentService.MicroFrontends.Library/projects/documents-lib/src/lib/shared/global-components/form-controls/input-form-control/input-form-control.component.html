@@ -1,0 +1,66 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxFlex
+  #inputContainer
+  class="relative input-container border cursor-text"
+>
+  <ng-container *ngTemplateOutlet="edit"></ng-container>
+  <div *ngIf="!editing" class="absolute top-0 left-0 w-full h-full">
+    <ng-container *ngTemplateOutlet="view"></ng-container>
+  </div>
+</div>
+
+<ng-template #view>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center start"
+    class="input-wrapper pr-2 bg-white overflow-x-clip overflow-y-hidden"
+  >
+    <div fxLayout="row" fxLayoutAlign="start center" class="h-full w-full">
+      <ng-container *ngTemplateOutlet="prefixTextChildren"></ng-container>
+      <div *ngIf="leftIcon" class="pl-2">
+        <div [class]="leftIcon"></div>
+      </div>
+      <div
+        fxFlex
+        class="line-1 pl-2"
+        [class.text-gray-smoky]="tempValue === ''"
+      >
+        {{ tempValue === "" ? placeholder : tempValue }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div fxLayout="row" fxLayoutAlign="start center" class="input-wrapper pr-2">
+    <ng-container *ngTemplateOutlet="prefixTextChildren"></ng-container>
+    <div *ngIf="leftIcon" class="pl-2">
+      <div [class]="leftIcon"></div>
+    </div>
+    <form fxFlex [formGroup]="form" class="pl-2">
+      <input
+        #input
+        class="w-full h-full pr-2"
+        formControlName="searchInput"
+        (input)="onTempValueChange($event)"
+        [placeholder]="placeholder"
+      />
+    </form>
+  </div>
+</ng-template>
+
+<!-----  H E L P E R S   ------->
+<ng-template #prefixTextChildren>
+  <div
+    *ngIf="prefixText"
+    fxLayout="column"
+    fxLayoutAlign="center start"
+    class="bg-gray-100 h-full overflow-x-hidden pl-1 pr-1 max-width-200"
+  >
+    <div class="text-sm font-medium line-1">
+      {{ prefixText }}
+    </div>
+  </div>
+</ng-template>

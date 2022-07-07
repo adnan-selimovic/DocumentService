@@ -1,0 +1,26 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="between center"
+  class="p-3 bg-white border-b"
+>
+  <div
+    fxFlex
+    class="cursor-pointer"
+    routerLink="/documents/"
+    [queryParams]="{ path: '/' }"
+    [class.pointer-events-none]="IS_PUBLIC"
+  >
+    Document Service App {{ IS_PUBLIC ? " - PUBLIC" : "" }}
+  </div>
+
+  <div *ngIf="!IS_PUBLIC" class="w-4/12">
+    <form [formGroup]="form">
+      <app-documents-search-input-control
+        formControlName="searchInput"
+        placeholder="Search..."
+        leftIcon="search-icon"
+      >
+      </app-documents-search-input-control>
+    </form>
+  </div>
+</div>

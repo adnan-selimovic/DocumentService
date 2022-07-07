@@ -1,0 +1,42 @@
+<div>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="p-2">
+    <div class="font-medium">{{ data.title }}</div>
+    <button mat-dialog-close><div class="close-icon"></div></button>
+  </div>
+  <ng-content></ng-content>
+
+  <ng-container *ngTemplateOutlet="footer"></ng-container>
+</div>
+
+<ng-template #footer>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end center"
+    fxLayoutGap="16px"
+    class="bg-gray-eagle p-2 mt-3"
+  >
+    <button
+      *ngIf="showClose"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="8px"
+      class="p-1 rounded bg-white cursor-pointer hover:bg-gray-belton"
+      (click)="data.onClose ? data.onClose() : onClose()"
+      mat-dialog-close
+    >
+      <div class="text-sm">CLOSE</div>
+    </button>
+    <button
+      *ngIf="showConfirm"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="8px"
+      class="p-1 rounded bg-silver cursor-pointer hover:bg-gray-belton"
+      (click)="data.onConfirm ? data.onConfirm() : onConfirm()"
+      [disabled]="disabled"
+    >
+      <div class="check-icon"></div>
+      <div class="text-sm">SUBMIT</div>
+    </button>
+  </div>
+</ng-template>

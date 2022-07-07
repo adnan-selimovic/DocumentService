@@ -1,0 +1,80 @@
+<div fxLayout="row">
+  <div
+    fxFlex
+    #inputContainer
+    class="relative input-container border cursor-text"
+  >
+    <ng-container *ngTemplateOutlet="edit"></ng-container>
+    <div *ngIf="!editing" class="absolute top-0 left-0 w-full h-full">
+      <ng-container *ngTemplateOutlet="view"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+  </div>
+
+  <button
+    *ngIf="editing"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    class="p-1 pl-2 pr-2 bg-layout hover:bg-gray-eagle"
+    (click)="onSearch()"
+  >
+    <div class="search-icon"></div>
+  </button>
+</div>
+
+<ng-template #view>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center start"
+    class="input-wrapper p-1 pl-2 pr-2 bg-white overflow-x-clip overflow-y-hidden"
+  >
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+      <div *ngIf="leftIcon" [class]="leftIcon"></div>
+      <div *ngIf="tempValue === ''" class="line-1 text-gray-smoky">
+        {{ placeholder }}
+      </div>
+      <div *ngIf="tempValue !== ''" class="line-1">{{ tempValue }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="8px"
+    class="input-wrapper pl-2"
+  >
+    <div *ngIf="leftIcon" [class]="leftIcon"></div>
+    <form fxFlex [formGroup]="form">
+      <input
+        #input
+        class="w-full h-full pr-2"
+        formControlName="searchInput"
+        (input)="onTempValueChange($event)"
+        [placeholder]="placeholder"
+      />
+    </form>
+    <button
+      *ngIf="tempValue !== ''"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      class="p-1 pl-2 pr-2 bg-layout hover:bg-gray-eagle"
+      (click)="clearInput()"
+    >
+      <div class="close-icon"></div>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #dropdown>
+  <!-- SELECT DROPDOWN -->
+  <div
+    *ngIf="selectExpanded"
+    class="select-container botom p-2"
+    fxLayout="column"
+  >
+    <div class="text-sm text-gray-400">Enter your search term</div>
+  </div>
+  <!-- / SELECT DROPDOWN -->
+</ng-template>

@@ -1,0 +1,10 @@
+<app-modal-wrapper>
+  <div class="p-3">
+    <ng-container *ngFor="let error of errorMessages">
+      <div fxLayout="row" fxLayoutGap="8px" class="mb-1">
+        <div class="alert-icon"></div>
+        <div class="text-gray-700">{{ error.message }}</div>
+      </div>
+    </ng-container>
+  </div>
+</app-modal-wrapper>

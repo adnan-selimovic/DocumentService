@@ -1,0 +1,428 @@
+.small-size {
+  width: 12px;
+  height: 12px;
+}
+.base-size {
+  width: 24px;
+  height: 24px;
+}
+.md-size {
+  width: 32px;
+  height: 32px;
+}
+.lg-size {
+  width: 40px;
+  height: 40px;
+}
+.xl-size {
+  width: 48px;
+  height: 48px;
+}
+.xl2-size {
+  width: 56px;
+  height: 56px;
+}
+.xl3-size {
+  width: 64px;
+  height: 64px;
+}
+
+.max-size {
+  width: 100%;
+  height: 100%;
+}
+
+.folder-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/folder-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.document-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/document-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.bullet-list-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/bullet-list-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.group-list-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/group-list-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.upload-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/upload-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+  &.xl3-size {
+    @extend .xl3-size;
+  }
+}
+
+.arrow-right-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/arrow-right-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+  &.rotate {
+    transform: rotate(90deg);
+  }
+}
+
+.plus-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/plus-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.check-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/check-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.close-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/close-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.empty-folder-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/empty-folder.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.search-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/search-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.locked-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/locked-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.unlocked-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/unlocked-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.more-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/more-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.download-briefcase-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/download-briefcase-icon.svg") no-repeat
+    center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.folder-plus-outline-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/folder-plus-outline-icon.svg") no-repeat
+    center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.delete-trash-can-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/delete-trash-can-icon.svg") no-repeat
+    center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.pencil-outline-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/pencil-outline-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.check-underline-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/check-underline-icon.svg") no-repeat
+    center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.alert-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/alert-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.user-settings-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/user-settings-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.user-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/user-icon.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.user-group-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/user-group-icon.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.security-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/security-image.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.document-search-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/document-search-image.svg") no-repeat
+    center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.checkmark-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/checkmark-image.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.connections-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/connections-image.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.launch-rocket-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/launch-rocket-image.svg") no-repeat center
+    center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+.x-mark-img {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/x-mark-image.svg") no-repeat center center;
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.share-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/share-icon.svg") no-repeat center center;
+  &.small {
+    @extend .small-size;
+  }
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
+
+.disallow-icon {
+  @extend .base-size;
+  background-size: contain;
+  background: url("assets/images/svgs/disallow-icon.svg") no-repeat center
+    center;
+  &.small {
+    @extend .small-size;
+  }
+  &.max {
+    @extend .max-size;
+  }
+  &.lg-size {
+    @extend .lg-size;
+  }
+}
