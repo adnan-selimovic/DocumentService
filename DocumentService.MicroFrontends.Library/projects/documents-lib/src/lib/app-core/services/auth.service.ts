@@ -36,8 +36,8 @@ export class AuthService {
   refreshToken() {
     const body = new URLSearchParams();
     body.set('refresh_token', '');
-    body.set('client_id', 'qssDocs');
-    body.set('client_secret', 'QssDocs123!');
+    body.set('client_id', '');
+    body.set('client_secret', '');
     body.set('grant_type', 'refresh_token');
 
     const httpLoginOptions = this.getUrlEncodedHeaders();
